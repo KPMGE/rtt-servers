@@ -36,16 +36,16 @@ Graph *graph_new(int vertices) {
 }
 
 // Add edge
-void add_edge(Graph *graph, int s, int d) {
+void add_edge(Graph *graph, int source, int destination) {
   // Add edge from s to d
-  Node *new_node = node_new(d);
-  new_node->next = graph->adj_lists[s];
-  graph->adj_lists[s] = new_node;
+  Node *new_node = node_new(destination);
+  new_node->next = graph->adj_lists[source];
+  graph->adj_lists[source] = new_node;
 
   // Add edge from d to s
-  new_node = node_new(s);
-  new_node->next = graph->adj_lists[d];
-  graph->adj_lists[d] = new_node;
+  new_node = node_new(source);
+  new_node->next = graph->adj_lists[destination];
+  graph->adj_lists[destination] = new_node;
 }
 
 // Print the graph
