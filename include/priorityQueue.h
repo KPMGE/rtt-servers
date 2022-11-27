@@ -2,6 +2,7 @@
 #define PRIORITYQUEUE_H
 
 #include <stdbool.h>
+#include "vertex.h"
 
 typedef struct priorityQueue PriorityQueue;
 
