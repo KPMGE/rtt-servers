@@ -11,13 +11,13 @@ struct priorityQueue {
 };
 
 void swap(PriorityQueue* p, int i, int j) {
-	item_exch(&p->array[i], &p->array[j]);
-	p->map[item_id(p->array[i])] = i;
-	p->map[item_id(p->array[j])] = j;
+	vertex_exch(&p->array[i], &p->array[j]);
+	p->map[vertex_id(p->array[i])] = i;
+	p->map[vertex_id(p->array[j])] = j;
 }
 
 void fix_up(PriorityQueue* p, int k) {
-    while (k > 1 && item_more(p->array[k / 2], p->array[k])) {
+    while (k > 1 && vertex_more(p->array[k / 2], p->array[k])) {
         swap(p, k, k / 2);
         k = k / 2;
     }
@@ -26,10 +26,10 @@ void fix_up(PriorityQueue* p, int k) {
 void fix_down(PriorityQueue* p, int k) {
     while (2 * k <= p->quantity) {
         int j = 2 * k;
-        if (j < p->quantity && item_more(p->array[j], p->array[j + 1])) {
+        if (j < p->quantity && vertex_more(p->array[j], p->array[j + 1])) {
             j++;
         }
-        if (!item_more(p->array[k], p->array[j])) {
+        if (!vertex_more(p->array[k], p->array[j])) {
             break;
         }
         swap(p, k, j);
@@ -48,7 +48,7 @@ PriorityQueue* PriorityQueue_init(int maxN) {
 void PriorityQueue_insert(PriorityQueue* p, Vertex* v) {
     p->quantity++;
     p->array[p->quantity] = v;
-    p->map[item_id(v)] = p->quantity;
+    p->map[vertex_id(v)] = p->quantity;
     fix_up(p, p->quantity);
 }
 
@@ -66,7 +66,7 @@ Vertex* PriorityQueue_min(PriorityQueue* p) {
 
 void PriorityQueue_decrease_key(PriorityQueue* p, int id, double value) {
     int i = p->map[id];
-    item_setValue(p->array[i], value);
+    vertex_set_value(p->array[i], value);
     fix_up(p, i);
 }
 

@@ -34,3 +34,13 @@ void vertex_set_id(Vertex* p, int id) {
 void vertex_free(Vertex* p) {
 	free(p);
 }
+
+int vertex_more(Vertex* p, Vertex* q) {
+	return p->value > q->value;
+}
+
+void vertex_exch(Vertex** p, Vertex** q) {
+	Vertex* t = *p;
+	*p = *q;
+	*q = t;
+}
