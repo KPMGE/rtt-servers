@@ -35,6 +35,10 @@ Graph *graph_new(int vertices) {
   return graph;
 }
 
+int graph_vertices(Graph *graph) {
+  return graph->amount_vertices;
+}
+
 void add_edge(Graph *graph, int src, int dest, double weight) {
   Node *new_node = node_new(dest);
   new_node->next = graph->adj_lists[src];
