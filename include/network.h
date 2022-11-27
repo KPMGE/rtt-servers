@@ -1,6 +1,8 @@
 #ifndef NETWORK_H
 #define NETWORK_H
 
+#include <stdio.h>
+#include "./linkedList.h"
 typedef struct distances Distances;
 typedef struct network Network;
 
