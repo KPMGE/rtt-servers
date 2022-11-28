@@ -42,7 +42,7 @@ int main(int argc, char *argv[]) {
   printf("\nGraph: \n");
   print_graph(n->graph);
 
-  double *distances = dijkstra(n->graph, 0);
+  double *distances = dijkstra(n->graph, 3);
   printf("\ndistances: \n");
   for (int i = 0; i < n->qtd_vertices; i++) {
     printf("%.2f\n", distances[i]);
@@ -96,7 +96,7 @@ double * dijkstra(Graph* graph, int src) {
 		distance[i] = INFINITY;
 		visited[i] = 0;
 	}
-	distance[src] = 0.0;
+	distance[src - 1] = 0.0;
   PriorityQueue *pq = PriorityQueue_init(amount_vertices);
   Vertex *new_node = vertex_new(src);
   new_node->weight = 0.0;
@@ -106,16 +106,15 @@ double * dijkstra(Graph* graph, int src) {
 	while (!PriorityQueue_empty(pq))  {
 		Vertex *current = PriorityQueue_delmin(pq);
 		int index = current->id;
-		visited[index] = 1;
+		visited[index - 1] = 1;
 
 		double new_weight;
     Vertex *temp = graph_get_vertex(graph, index);
     while (temp) {
-			if (visited[temp->id] == 0) {
-				new_weight = distance[index] + temp->weight;
-        printf("newdist: %.2f\n", new_weight);
-				if (new_weight < distance[temp->id]) {
-					distance[temp->id] = new_weight;
+			if (visited[temp->id - 1] == 0) {
+				new_weight = distance[index - 1] + temp->weight;
+				if (new_weight < distance[temp->id - 1]) {
+					distance[temp->id - 1] = new_weight;
 					if(PriorityQueue_contains(pq, temp->id)){
             PriorityQueue_decrease_key(pq, temp->id, new_weight);
 					} else {
