@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 #include "../include/priorityQueue.h"
 #include "../include/vertex.h"
@@ -62,9 +63,9 @@ Vertex *PriorityQueue_delmin(PriorityQueue *p) {
 
 Vertex *PriorityQueue_min(PriorityQueue *p) { return p->array[1]; }
 
-void PriorityQueue_decrease_key(PriorityQueue *p, int id, double value) {
+void PriorityQueue_decrease_key(PriorityQueue *p, int id, double weight) {
   int i = p->map[id];
-  vertex_set_value(p->array[i], value);
+  vertex_set_weight(p->array[i], weight);
   fix_up(p, i);
 }
 
@@ -76,4 +77,13 @@ void PriorityQueue_finish(PriorityQueue *p) {
   free(p->array);
   free(p->map);
   free(p);
+}
+
+int PriorityQueue_contains(PriorityQueue *pq, int key){
+	for (int i = 0; i < pq->quantity; i++) {
+		if(pq->array[i]->id == key) {
+			return true;
+		}
+	}
+	return false;
 }

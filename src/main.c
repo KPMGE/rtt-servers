@@ -1,4 +1,5 @@
 #include <assert.h>
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <float.h>
@@ -12,6 +13,7 @@ typedef struct {
 } Network;
 
 Network *read_net(const char *file_path);
+double * dijkstra(Graph* graph, int src); 
 
 int main(int argc, char *argv[]) {
   assert(argc >= 2);
@@ -39,6 +41,12 @@ int main(int argc, char *argv[]) {
 
   printf("\nGraph: \n");
   print_graph(n->graph);
+
+  double *distances = dijkstra(n->graph, 0);
+  printf("\ndistances: \n");
+  for (int i = 0; i < n->qtd_vertices; i++) {
+    printf("%.2f\n", distances[i]);
+  }
 }
 
 Network *read_net(const char *file_path) {
@@ -77,4 +85,48 @@ Network *read_net(const char *file_path) {
   fclose(file);
 
   return n;
+}
+
+double * dijkstra(Graph* graph, int src) {
+  int amount_vertices = graph_vertices(graph);
+	double *distance = malloc(sizeof(double) * amount_vertices);
+	int visited[amount_vertices];
+
+	for (int i = 0; i < amount_vertices; i++) {
+		distance[i] = INFINITY;
+		visited[i] = 0;
+	}
+	distance[src] = 0.0;
+  PriorityQueue *pq = PriorityQueue_init(amount_vertices);
+  Vertex *new_node = vertex_new(src);
+  new_node->weight = 0.0;
+
+  PriorityQueue_insert(pq, new_node);
+
+	while (!PriorityQueue_empty(pq))  {
+		Vertex *current = PriorityQueue_delmin(pq);
+		int index = current->id;
+		visited[index] = 1;
+
+		double new_weight;
+    Vertex *temp = graph_get_vertex(graph, index);
+    while (temp) {
+			if (visited[temp->id] == 0) {
+				new_weight = distance[index] + temp->weight;
+        printf("newdist: %.2f\n", new_weight);
+				if (new_weight < distance[temp->id]) {
+					distance[temp->id] = new_weight;
+					if(PriorityQueue_contains(pq, temp->id)){
+            PriorityQueue_decrease_key(pq, temp->id, new_weight);
+					} else {
+						Vertex *newNode = vertex_new(temp->id);
+						newNode->weight = new_weight;
+            PriorityQueue_insert(pq, newNode);
+					}
+				}
+			}
+      temp = temp->next;
+    }
+	}
+	return distance;
 }

@@ -17,5 +17,6 @@ void PriorityQueue_decrease_key(PriorityQueue* p, int id, double value);
 bool PriorityQueue_empty(PriorityQueue* p);
 int  PriorityQueue_size(PriorityQueue* p);
 void PriorityQueue_finish(PriorityQueue* p);
+int PriorityQueue_contains(PriorityQueue *pq, int key);
 
 #endif

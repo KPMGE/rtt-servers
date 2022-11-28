@@ -68,7 +68,7 @@ double *djkistra_algorithm(int id, int vertex, LinkedList **linked) {
     for (LinkedList *l = linked[id]; l != NULL; l = linkedList_next(l)) {
       Vertex *aux = linkedList_vertex(l);
       int idConnected = vertex_id(aux);
-      int costConnected = vertex_value(aux);
+      int costConnected = vertex_weight(aux);
 
       if (cost[idConnected] < 0) {
         cost[idConnected] = cost[id] + costConnected;

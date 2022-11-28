@@ -1,31 +1,34 @@
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <math.h>
 #include "../include/vertex.h"
 
-struct vertex {
-  int id;
-  double value;
-};
-
-Vertex *vertex_start(int id, double value) {
+Vertex *vertex_start(int id, double weight) {
   Vertex *v = (Vertex *)malloc(sizeof(Vertex));
   v->id = id;
-  v->value = value;
+  v->weight = weight;
   return v;
 }
 
-double vertex_value(Vertex *p) { return p->value; }
+Vertex *vertex_new(int v) {
+  Vertex *new_node = malloc(sizeof(Vertex));
+  new_node->id = v;
+  new_node->next = NULL;
+  new_node->weight = INFINITY;
+  return new_node;
+}
+
+double vertex_weight(Vertex *p) { return p->weight; }
 
 int vertex_id(Vertex *p) { return p->id; }
 
-void vertex_set_value(Vertex *p, double value) { p->value = value; }
+void vertex_set_weight(Vertex *p, double weight) { p->weight = weight; }
 
 void vertex_set_id(Vertex *p, int id) { p->id = id; }
 
 void vertex_free(Vertex *p) { free(p); }
 
-int vertex_more(Vertex *p, Vertex *q) { return p->value > q->value; }
+int vertex_more(Vertex *p, Vertex *q) { return p->weight > q->weight; }
 
 void vertex_exch(Vertex **p, Vertex **q) {
   Vertex *t = *p;
