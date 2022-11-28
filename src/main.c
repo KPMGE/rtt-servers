@@ -14,6 +14,7 @@ typedef struct {
 
 Network *read_net(const char *file_path);
 double * dijkstra(Graph* graph, int src); 
+double rtt(Graph *graph, int a, int b);
 
 int main(int argc, char *argv[]) {
   assert(argc >= 2);
@@ -47,6 +48,8 @@ int main(int argc, char *argv[]) {
   for (int i = 0; i < n->qtd_vertices; i++) {
     printf("%.2f\n", distances[i]);
   }
+
+  printf("\nrtt(0, 3): %.2f\n", rtt(n->graph, 0, 3));
 }
 
 Network *read_net(const char *file_path) {
@@ -128,4 +131,10 @@ double * dijkstra(Graph* graph, int src) {
     }
 	}
 	return distance;
+}
+
+double rtt(Graph *graph, int a, int b) {
+  double *distances_a = dijkstra(graph, a);
+  double *distances_b = dijkstra(graph, b);
+  return distances_a[b] + distances_b[b];
 }
