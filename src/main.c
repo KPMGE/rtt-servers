@@ -43,13 +43,13 @@ int main(int argc, char *argv[]) {
   printf("\nGraph: \n");
   print_graph(n->graph);
 
-  double *distances = dijkstra(n->graph, 3);
+  double *distances = dijkstra(n->graph, 0);
   printf("\ndistances: \n");
   for (int i = 0; i < n->qtd_vertices; i++) {
     printf("%.2f\n", distances[i]);
   }
 
-  printf("\nrtt(0, 3): %.2f\n", rtt(n->graph, 0, 3));
+  printf("\nrtt(0, 4): %.2f\n", rtt(n->graph, 0, 4));
 }
 
 Network *read_net(const char *file_path) {
@@ -99,7 +99,7 @@ double * dijkstra(Graph* graph, int src) {
 		distance[i] = INFINITY;
 		visited[i] = 0;
 	}
-	distance[src - 1] = 0.0;
+	distance[src] = 0.0;
   PriorityQueue *pq = PriorityQueue_init(amount_vertices);
   Vertex *new_node = vertex_new(src);
   new_node->weight = 0.0;
@@ -109,15 +109,15 @@ double * dijkstra(Graph* graph, int src) {
 	while (!PriorityQueue_empty(pq))  {
 		Vertex *current = PriorityQueue_delmin(pq);
 		int index = current->id;
-		visited[index - 1] = 1;
+		visited[index] = 1;
 
 		double new_weight;
     Vertex *temp = graph_get_vertex(graph, index);
     while (temp) {
-			if (visited[temp->id - 1] == 0) {
-				new_weight = distance[index - 1] + temp->weight;
-				if (new_weight < distance[temp->id - 1]) {
-					distance[temp->id - 1] = new_weight;
+			if (visited[temp->id] == 0) {
+				new_weight = distance[index] + temp->weight;
+				if (new_weight < distance[temp->id]) {
+					distance[temp->id] = new_weight;
 					if(PriorityQueue_contains(pq, temp->id)){
             PriorityQueue_decrease_key(pq, temp->id, new_weight);
 					} else {
@@ -134,7 +134,19 @@ double * dijkstra(Graph* graph, int src) {
 }
 
 double rtt(Graph *graph, int a, int b) {
+  printf("a: %d, b: %d\n", a, b);
+
   double *distances_a = dijkstra(graph, a);
+  printf("\ndistances_a: \n");
+  for (int i = 0; i < graph_vertices(graph); i++) {
+    printf("%.2f\n", distances_a[i]);
+  }
+
   double *distances_b = dijkstra(graph, b);
-  return distances_a[b] + distances_b[b];
+
+  printf("\ndistances_b: \n");
+  for (int i = 0; i < graph_vertices(graph); i++) {
+    printf("%.2f\n", distances_b[i]);
+  }
+  return distances_a[b] + distances_b[a];
 }
