@@ -1,5 +1,5 @@
 #include "../include/utils.h"
-#include "../include/priorityQueue.h"
+#include "../include/priority_queue.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <assert.h>
@@ -56,30 +56,31 @@ double *dijkstra(Graph* graph, int src) {
 		visited[i] = 0;
 	}
 	distance[src] = 0.0;
-  PriorityQueue *pq = PriorityQueue_init(amount_vertices);
+  PriorityQueue *pq = priority_queue_init(amount_vertices);
   Vertex *new_node = vertex_new(src);
   new_node->weight = 0.0;
 
-  PriorityQueue_insert(pq, new_node);
+  priority_queue_insert(pq, new_node);
 
-	while (!PriorityQueue_empty(pq))  {
-		Vertex *current = PriorityQueue_delmin(pq);
+	while (!priority_queue_empty(pq))  {
+		Vertex *current = priority_queue_delmin(pq);
 		int index = current->id;
 		visited[index] = 1;
 
 		double new_weight;
     Vertex *temp = graph_get_vertex(graph, index);
+
     while (temp) {
 			if (visited[temp->id] == 0) {
 				new_weight = distance[index] + temp->weight;
 				if (new_weight < distance[temp->id]) {
 					distance[temp->id] = new_weight;
-					if(PriorityQueue_contains(pq, temp->id)){
-            PriorityQueue_decrease_key(pq, temp->id, new_weight);
+					if(priority_queue_contains(pq, temp->id)){
+            priority_queue_decrease_key(pq, temp->id, new_weight);
 					} else {
 						Vertex *newNode = vertex_new(temp->id);
 						newNode->weight = new_weight;
-            PriorityQueue_insert(pq, newNode);
+            priority_queue_insert(pq, newNode);
 					}
 				}
 			}
@@ -87,6 +88,7 @@ double *dijkstra(Graph* graph, int src) {
     }
 	}
 
+  priority_queue_finish(pq);
   free(visited);
 	return distance;
 }
