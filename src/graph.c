@@ -41,12 +41,11 @@ void add_edge(Graph *graph, int src, int dest, double weight) {
 }
 
 void print_graph(Graph *graph) {
-  int v;
-  for (v = 0; v < graph->amount_vertices; v++) {
+  for (int v = 0; v < graph->amount_vertices; v++) {
     Vertex *temp = graph->adj_lists[v];
     printf("\n Vertex %d\n: ", v);
     while (temp) {
-      printf("%d -> ", temp->id);
+      printf("%d(%.2f) -> ", temp->id, temp->weight);
       temp = temp->next;
     }
     printf("\n");

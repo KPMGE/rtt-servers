@@ -35,11 +35,16 @@ int main(int argc, char *argv[]) {
   printf("\nGraph: \n");
   print_graph(n->graph);
 
-  printf("estimated rtt: %.2f\n", calculate_estimated_rtt(n->graph, 0, 4, n->monitors, n->qtd_monitors));
-
   for (int i = 0; i < n->qtd_servers; i++) {
     for (int j = 0; j < n->qtd_clients; j++){
-      printf("%d %d\n", n->servers[i], n->clients[i]);
+      const int server_id = n->servers[i];
+      const int client_id = n->clients[j];
+
+      const double real_rtt = rtt(n->graph, server_id, client_id);
+      const double estimated_rtt = calculate_estimated_rtt(n->graph, server_id, client_id, n->monitors, n->qtd_monitors);
+      const double inflation = estimated_rtt / real_rtt;
+
+      printf("%d %d %.2f\n", server_id, client_id, inflation);
     }
   }
 }

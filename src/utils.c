@@ -46,10 +46,10 @@ Network *read_net(const char *file_path) {
 }
 
 
-double * dijkstra(Graph* graph, int src) {
+double *dijkstra(Graph* graph, int src) {
   int amount_vertices = graph_vertices(graph);
 	double *distance = malloc(sizeof(double) * amount_vertices);
-	int visited[amount_vertices];
+	int *visited = malloc(sizeof(int) * amount_vertices);
 
 	for (int i = 0; i < amount_vertices; i++) {
 		distance[i] = INFINITY;
@@ -86,13 +86,18 @@ double * dijkstra(Graph* graph, int src) {
       temp = temp->next;
     }
 	}
+
+  free(visited);
 	return distance;
 }
 
 double rtt(Graph *graph, int a, int b) {
   double *distances_a = dijkstra(graph, a);
   double *distances_b = dijkstra(graph, b);
-  return distances_a[b] + distances_b[a];
+  double rtt = distances_a[b] + distances_b[a];
+  free(distances_a);
+  free(distances_b);
+  return rtt;
 }
 
 double calculate_estimated_rtt(Graph *graph, int a, int b, int *monitors, int qtd_monitors) {
@@ -106,14 +111,4 @@ double calculate_estimated_rtt(Graph *graph, int a, int b, int *monitors, int qt
   }
 
   return min;
-}
-
-double *calculate_rtts(Graph *graph, int *s1, int s1_size, int *s2, int s2_size) {
-  double *rtts = malloc(sizeof(double) * s1_size);
-
-  for (int i = 0; i < s1_size; i++) {
-    rtts[i] = rtt(graph, s1[i], s2[i]);
-  }
-
-  return rtts;
 }
