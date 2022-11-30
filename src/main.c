@@ -35,11 +35,11 @@ int main(int argc, char *argv[]) {
   printf("\nGraph: \n");
   print_graph(n->graph);
 
-  double *distances = dijkstra(n->graph, 0);
-  printf("\ndistances: \n");
-  for (int i = 0; i < n->qtd_vertices; i++) {
-    printf("%.2f\n", distances[i]);
-  }
+  printf("estimated rtt: %.2f\n", calculate_estimated_rtt(n->graph, 0, 4, n->monitors, n->qtd_monitors));
 
-  printf("\nrtt(0, 4): %.2f\n", rtt(n->graph, 0, 4));
+  for (int i = 0; i < n->qtd_servers; i++) {
+    for (int j = 0; j < n->qtd_clients; j++){
+      printf("%d %d\n", n->servers[i], n->clients[i]);
+    }
+  }
 }

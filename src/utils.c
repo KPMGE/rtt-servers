@@ -5,6 +5,8 @@
 #include <assert.h>
 #include <math.h>
 
+#define MIN(A, B) ((A) < (B) ? (A) : (B))
+
 Network *read_net(const char *file_path) {
   FILE *file = fopen(file_path, "r");
   assert(file != NULL && "Could not open file");
@@ -88,20 +90,30 @@ double * dijkstra(Graph* graph, int src) {
 }
 
 double rtt(Graph *graph, int a, int b) {
-  printf("a: %d, b: %d\n", a, b);
-
   double *distances_a = dijkstra(graph, a);
-  printf("\ndistances_a: \n");
-  for (int i = 0; i < graph_vertices(graph); i++) {
-    printf("%.2f\n", distances_a[i]);
-  }
-
   double *distances_b = dijkstra(graph, b);
-
-  printf("\ndistances_b: \n");
-  for (int i = 0; i < graph_vertices(graph); i++) {
-    printf("%.2f\n", distances_b[i]);
-  }
   return distances_a[b] + distances_b[a];
 }
 
+double calculate_estimated_rtt(Graph *graph, int a, int b, int *monitors, int qtd_monitors) {
+  double min = rtt(graph, a, monitors[0]) + rtt(graph, monitors[0], b);
+
+  for (int i = 1; i < qtd_monitors; i++) {
+    double new_rtt = rtt(graph, a, monitors[i]) + rtt(graph, monitors[i], b);
+    if (new_rtt < min) {
+      min = new_rtt;
+    }
+  }
+
+  return min;
+}
+
+double *calculate_rtts(Graph *graph, int *s1, int s1_size, int *s2, int s2_size) {
+  double *rtts = malloc(sizeof(double) * s1_size);
+
+  for (int i = 0; i < s1_size; i++) {
+    rtts[i] = rtt(graph, s1[i], s2[i]);
+  }
+
+  return rtts;
+}
