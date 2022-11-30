@@ -7,14 +7,14 @@ typedef struct vertex {
   struct vertex *next;
 } Vertex;
 
-Vertex* vertex_start(int id, double weight);
-double vertex_weight(Vertex* p);
-int vertex_id(Vertex* p);
-void vertex_set_weight(Vertex* p, double weight);
-void vertex_set_id(Vertex* p, int id);
-void vertex_free(Vertex* p);
-int vertex_more(Vertex* p, Vertex* q);
-void vertex_exch(Vertex** p, Vertex** q);
+Vertex *vertex_start(int id, double weight);
+double vertex_weight(Vertex *p);
+int vertex_id(Vertex *p);
+void vertex_set_weight(Vertex *p, double weight);
+void vertex_set_id(Vertex *p, int id);
+void vertex_free(Vertex *p);
+int vertex_more(Vertex *p, Vertex *q);
+void vertex_exch(Vertex **p, Vertex **q);
 Vertex *vertex_new(int v);
 
 #endif

@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <assert.h>
 #include "../include/vertex.h"
 
 Vertex *vertex_start(int id, double weight) {
@@ -31,6 +32,8 @@ void vertex_free(Vertex *p) { free(p); }
 int vertex_more(Vertex *p, Vertex *q) { return p->weight > q->weight; }
 
 void vertex_exch(Vertex **p, Vertex **q) {
+  assert(p != NULL);
+  assert(q != NULL);
   Vertex *t = *p;
   *p = *q;
   *q = t;
