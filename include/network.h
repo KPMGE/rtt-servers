@@ -1,13 +1,12 @@
 #ifndef NETWORK_H
 #define NETWORK_H
+#include "./graph.h"
 
-#include <stdio.h>
-#include "./linkedList.h"
-typedef struct distances Distances;
-typedef struct network Network;
+typedef struct {
+  int qtd_vertices, qtd_edges, qtd_servers, qtd_clients, qtd_monitors;
+  int *servers, *clients, *monitors;
+  Graph *graph;
+} Network;
 
-Network* start_network(FILE* in);
-double* djkistra_algorithm(int id, int vertex, LinkedList** linked);
-void read_network(FILE* in, Network* n, Distances* d);
+#endif // !NETWORK_H
 
-#endif
