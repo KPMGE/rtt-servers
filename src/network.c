@@ -2,10 +2,14 @@
 #include <stdlib.h>
 #include <assert.h>
 #include "../include/network.h"
+#include "../include/utils.h"
 
 struct network {
   int qtd_vertices, qtd_edges, qtd_servers, qtd_clients, qtd_monitors;
   int *servers, *clients, *monitors;
+  double ** distances_clients;
+  double ** distances_servers;
+  double ** distances_monitors;
   Graph *graph;
 };
 
@@ -14,7 +18,7 @@ Network *read_network(const char *file_path) {
   assert(file != NULL && "Could not open file");
 
   Network *n = malloc(sizeof(Network));
-
+  
   fscanf(file, "%d %d", &n->qtd_vertices, &n->qtd_edges);
   fscanf(file, "%d %d %d", &n->qtd_servers, &n->qtd_clients, &n->qtd_monitors);
 
@@ -23,6 +27,11 @@ Network *read_network(const char *file_path) {
   n->monitors = malloc(sizeof(int) * n->qtd_monitors);
   n->graph = graph_new(n->qtd_vertices);
 
+  n->distances_clients = malloc(sizeof(double*)*n->qtd_clients);
+  n->distances_servers = malloc(sizeof(double*)*n->qtd_servers);
+  n->distances_monitors = malloc(sizeof(double*)*n->qtd_monitors);
+
+  
   for (int i = 0; i < n->qtd_servers; i++) {
     fscanf(file, "%d", &n->servers[i]);
   }
@@ -44,6 +53,18 @@ Network *read_network(const char *file_path) {
 
   fclose(file);
 
+  for(int i = 0; i < n->qtd_clients; i++){
+    n->distances_clients[i] = dijkstra(n->graph, i);
+  }
+
+  for(int i = 0; i < n->qtd_monitors; i++){
+    n->distances_monitors[i] = dijkstra(n->graph, i);
+  }
+
+  for(int i = 0; i < n->qtd_servers; i++){
+    n->distances_servers[i] = dijkstra(n->graph, i);
+  }
+  
   return n;
 }
 

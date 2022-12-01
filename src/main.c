@@ -10,7 +10,7 @@
 int main(int argc, char *argv[]) {
   assert(argc >= 2);
   Network *n = read_network(argv[1]);
-  int *servers = network_servers(n);
+  /*int *servers = network_servers(n);
   int *clients = network_clients(n);
   int *monitors = network_monitors(n);
   Graph *graph = network_graph(n);
@@ -27,5 +27,5 @@ int main(int argc, char *argv[]) {
 
       printf("%d %d %.16f\n", server_id, client_id, inflation);
     }
-  }
+  }*/
 }
