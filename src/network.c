@@ -28,11 +28,9 @@ Network *read_network(const char *file_path) {
   for (int i = 0; i < n->qtd_servers; i++) {
     fscanf(file, "%d", &n->servers[i]);
   }
-
   for (int i = 0; i < n->qtd_clients; i++) {
     fscanf(file, "%d", &n->clients[i]);
   }
-
   for (int i = 0; i < n->qtd_monitors; i++) {
     fscanf(file, "%d", &n->monitors[i]);
   }
@@ -46,58 +44,15 @@ Network *read_network(const char *file_path) {
 
   fclose(file);
 
-
-  // for (int i = 0; i < network_qtd_servers(n); i++) {
-  //   for (int j = 0; j < network_qtd_clients(n); j++){
-  //     const int server_id = n->servers[i];
-  //     const int client_id = n->clients[j];
-
-  //     // n->distances[server_id] = dijkstra(graph, i);
-  //     // n->distances[client_id] = dijkstra(graph, j);
-
-
-  //     double *distances_a = dijkstra(graph, server_id);
-  //     double *distances_b = dijkstra(graph, client_id);
-  //     double rtt = distances_a[client_id] + distances_b[server_id];
-
-  //     free(distances_a);
-  //     free(distances_b);
-
-  //     printf("rtt: %.2f\n", rtt);
-
-  //     // const double real_rtt = rtt(n, server_id, client_id);
-  //     // const double estimated_rtt = calculate_estimated_rtt(n, server_id, client_id);
-  //     // const double inflation = estimated_rtt / real_rtt;
-
-  //     // free(n->distances[i]);
-  //     // free(n->distances[j]);
-
-  //     // printf("%d %d %.16f\n", server_id, client_id, inflation);
-  //   }
-  // }
-
-  printf("start dijkstra\n");
   for (int i = 0; i < n->qtd_servers; i++) {
     n->distances[n->servers[i]] = dijkstra(graph, n->servers[i]);
   }
-
   for (int i = 0; i < n->qtd_clients; i++) {
     n->distances[n->clients[i]] = dijkstra(graph, n->clients[i]);
   }
-
   for (int i = 0; i < n->qtd_monitors; i++) {
     n->distances[n->monitors[i]] = dijkstra(graph, n->monitors[i]);
   }
-
-
-  // for (int i = 0; i < n->qtd_vertices; i++) {
-  //   if (i <= 10) {
-  //     n->distances[i] = dijkstra(graph, i);
-  //   } else {
-  //     n->distances[i] = 0;
-  //   }
-  // }
-  printf("finish dijkstra\n");
 
   graph_free(graph);
 
