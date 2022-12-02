@@ -74,6 +74,9 @@ bool priority_queue_empty(PriorityQueue *p) { return p->quantity == 0; }
 int priority_queue_size(PriorityQueue *p) { return p->quantity; }
 
 void priority_queue_finish(PriorityQueue *p) {
+  for (int i = 1; i < p->quantity; i++) {
+    vertex_free(p->array[i]);
+  }
   free(p->array);
   free(p->map);
   free(p);
@@ -81,7 +84,7 @@ void priority_queue_finish(PriorityQueue *p) {
 
 int priority_queue_contains(PriorityQueue *pq, int key){
 	for (int i = 0; i < pq->quantity; i++) {
-    if (pq->array[i] == NULL) continue;
+    if (pq->array[i] == NULL) return false;
 		if(pq->array[i]->id == key) {
 			return true;
 		}

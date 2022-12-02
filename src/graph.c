@@ -51,3 +51,16 @@ void print_graph(Graph *graph) {
     printf("\n");
   }
 }
+
+void graph_free(Graph *graph) {
+  for (int v = 0; v < graph->amount_vertices; v++) {
+    Vertex *temp = graph->adj_lists[v];
+    while (temp) {
+      Vertex *aux = temp;
+      temp = temp->next;
+      free(aux);
+    }
+  }
+  free(graph->adj_lists);
+  free(graph);
+}

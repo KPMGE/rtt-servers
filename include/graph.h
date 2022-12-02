@@ -9,5 +9,6 @@ void add_edge(Graph *graph, int src, int dest, double weight);
 void print_graph(Graph *graph);
 int graph_vertices(Graph *graph);
 Vertex *graph_get_vertex(Graph *graph, int index);
+void graph_free(Graph *graph);
 
 #endif // !GRAPH_H

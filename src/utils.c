@@ -16,6 +16,7 @@ double *dijkstra(Graph* graph, int src) {
 		distance[i] = INFINITY;
 		visited[i] = 0;
 	}
+
 	distance[src] = 0.0;
   PriorityQueue *pq = priority_queue_init(amount_vertices);
   Vertex *new_node = vertex_new(src);
@@ -54,20 +55,21 @@ double *dijkstra(Graph* graph, int src) {
 	return distance;
 }
 
-double rtt(Graph *graph, int a, int b) {
-  double *distances_a = dijkstra(graph, a);
-  double *distances_b = dijkstra(graph, b);
+double rtt(Network *n, int a, int b) {
+  double *distances_a = network_distances(n, a);
+  double *distances_b = network_distances(n, b);
   double rtt = distances_a[b] + distances_b[a];
-  free(distances_a);
-  free(distances_b);
   return rtt;
 }
 
-double calculate_estimated_rtt(Graph *graph, int a, int b, int *monitors, int qtd_monitors) {
-  double min = rtt(graph, a, monitors[0]) + rtt(graph, monitors[0], b);
+double calculate_estimated_rtt(Network *n, int a, int b) {
+  int *monitors = network_monitors(n);
+  int qtd_monitors = network_qtd_monitors(n);
+
+  double min = rtt(n, a, monitors[0]) + rtt(n, monitors[0], b);
 
   for (int i = 1; i < qtd_monitors; i++) {
-    double new_rtt = rtt(graph, a, monitors[i]) + rtt(graph, monitors[i], b);
+    double new_rtt = rtt(n, a, monitors[i]) + rtt(n, monitors[i], b);
     if (new_rtt < min) {
       min = new_rtt;
     }
