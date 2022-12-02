@@ -77,13 +77,26 @@ Network *read_network(const char *file_path) {
   // }
 
   printf("start dijkstra\n");
-  for (int i = 0; i < n->qtd_vertices; i++) {
-    if (i <= 10) {
-      n->distances[i] = dijkstra(graph, i);
-    } else {
-      n->distances[i] = 0;
-    }
+  for (int i = 0; i < n->qtd_servers; i++) {
+    n->distances[n->servers[i]] = dijkstra(graph, n->servers[i]);
   }
+
+  for (int i = 0; i < n->qtd_clients; i++) {
+    n->distances[n->clients[i]] = dijkstra(graph, n->clients[i]);
+  }
+
+  for (int i = 0; i < n->qtd_monitors; i++) {
+    n->distances[n->monitors[i]] = dijkstra(graph, n->monitors[i]);
+  }
+
+
+  // for (int i = 0; i < n->qtd_vertices; i++) {
+  //   if (i <= 10) {
+  //     n->distances[i] = dijkstra(graph, i);
+  //   } else {
+  //     n->distances[i] = 0;
+  //   }
+  // }
   printf("finish dijkstra\n");
 
   graph_free(graph);
