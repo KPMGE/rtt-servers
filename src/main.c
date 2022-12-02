@@ -24,4 +24,5 @@ int main(int argc, char *argv[]) {
   }
 
   rtt_inflation_free(rtt_inflations, amount_outputs);
+  network_free(n);
 }

@@ -58,7 +58,9 @@ void graph_free(Graph *graph) {
     while (temp) {
       Vertex *aux = temp;
       temp = temp->next;
-      free(aux);
+      if (aux) {
+        vertex_free(aux);
+      }
     }
   }
   free(graph->adj_lists);

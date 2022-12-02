@@ -23,7 +23,7 @@ Network *read_network(const char *file_path) {
   n->servers = malloc(sizeof(int) * n->qtd_servers);
   n->monitors = malloc(sizeof(int) * n->qtd_monitors);
   Graph *graph = graph_new(n->qtd_vertices);
-  n->distances = malloc(sizeof(double *) * n->qtd_vertices);
+  n->distances = calloc(n->qtd_vertices, sizeof(double *));
 
   for (int i = 0; i < n->qtd_servers; i++) {
     fscanf(file, "%d", &n->servers[i]);
@@ -83,5 +83,11 @@ void network_free(Network *n) {
   free(n->clients);
   free(n->servers);
   free(n->monitors);
+  for (int i = 0; i < n->qtd_vertices; i++) {
+    if (n->distances[i]) {
+      free(n->distances[i]);
+    }
+  }
+  free(n->distances);
   free(n);
 }

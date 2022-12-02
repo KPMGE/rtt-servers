@@ -67,7 +67,9 @@ void rtt_inflation_compute(Network *n, RttInflation **rtt_inflations) {
 
 void rtt_inflation_free(RttInflation **r, int n) {
   for (int i = 0; i < n; i++) {
-    free(r[i]);
+    if (r[i]) {
+      free(r[i]);
+    }
   }
   free(r);
 }
