@@ -16,7 +16,6 @@ int main(int argc, char *argv[]) {
   const char *output_file_path = argv[2];
 
   Network *n = read_network(input_file_path);
-
   int amount_outputs = network_qtd_servers(n) * network_qtd_clients(n);
   RttInflation **rtt_inflations = rtt_inflation_array(amount_outputs);
 

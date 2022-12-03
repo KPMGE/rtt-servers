@@ -48,6 +48,9 @@ double *dijkstra(Graph* graph, int src) {
 			}
       temp = temp->next;
     }
+    if (current) {
+      free(current);
+    }
 	}
 
   free(visited);

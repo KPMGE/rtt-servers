@@ -74,11 +74,6 @@ bool priority_queue_empty(PriorityQueue *p) { return p->n == 0; }
 int priority_queue_size(PriorityQueue *p) { return p->size; }
 
 void priority_queue_finish(PriorityQueue *p) {
-  for (int i = 0; i <= p->size; i++) {
-    if (p->array[i]) {
-      vertex_free(p->array[i]);
-    }
-  }
   free(p->array);
   free(p->map);
   free(p);
