@@ -4,13 +4,6 @@
 #include <assert.h>
 #include "../include/vertex.h"
 
-Vertex *vertex_start(int id, double weight) {
-  Vertex *v = (Vertex *)malloc(sizeof(Vertex));
-  v->id = id;
-  v->weight = weight;
-  return v;
-}
-
 Vertex *vertex_new(int v) {
   Vertex *new_node = malloc(sizeof(Vertex));
   new_node->id = v;
@@ -27,7 +20,9 @@ void vertex_set_weight(Vertex *p, double weight) { p->weight = weight; }
 
 void vertex_set_id(Vertex *p, int id) { p->id = id; }
 
-void vertex_free(Vertex *p) { free(p); }
+void vertex_free(Vertex *p) { 
+  free(p);
+}
 
 int vertex_more(Vertex *p, Vertex *q) { return p->weight > q->weight; }
 

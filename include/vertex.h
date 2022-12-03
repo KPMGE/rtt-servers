@@ -7,7 +7,6 @@ typedef struct vertex {
   struct vertex *next;
 } Vertex;
 
-Vertex *vertex_start(int id, double weight);
 double vertex_weight(Vertex *p);
 int vertex_id(Vertex *p);
 void vertex_set_weight(Vertex *p, double weight);
