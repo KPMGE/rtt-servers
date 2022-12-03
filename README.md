@@ -8,7 +8,8 @@
 - [x] The **.c** files must be at the _src_ folder.
 
 ### Steps
-- [ ] Read data from inputs 
-- [ ] Apply *Dijkstra's* algorithm
-- [ ] Calculate *RTT* and *RTTAprox*
-- [ ] Show results
+- [x] Read data from inputs 
+- [x] Apply *Dijkstra's* algorithm
+- [x] Calculate *RTT* and *RTTAprox*
+- [x] Show results
+- [x] Save results to a file
