@@ -75,19 +75,21 @@ int *network_clients(Network *n) { return n->clients; }
 
 int *network_monitors(Network *n) { return n->monitors; }
 
-double *network_distances(Network *n, int pos) {
-  return n->distances[pos];
-}
+double *network_distances(Network *n, int pos) { return n->distances[pos]; }
 
 void network_free(Network *n) {
-  free(n->clients);
-  free(n->servers);
-  free(n->monitors);
+  if (n->clients)
+    free(n->clients);
+  if (n->servers)
+    free(n->servers);
+  if (n->monitors)
+    free(n->monitors);
   for (int i = 0; i < n->qtd_vertices; i++) {
     if (n->distances[i]) {
       free(n->distances[i]);
     }
   }
-  free(n->distances);
+  if (n->distances)
+    free(n->distances);
   free(n);
 }

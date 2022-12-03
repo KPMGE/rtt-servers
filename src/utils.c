@@ -1,5 +1,5 @@
-#include "../include/utils.h"
 #include "../include/priority_queue.h"
+#include "../include/rtt_inflation.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <assert.h>
@@ -40,9 +40,9 @@ double *dijkstra(Graph* graph, int src) {
 					if(priority_queue_contains(pq, temp->id)){
             priority_queue_decrease_key(pq, temp->id, new_weight);
 					} else {
-						Vertex *newNode = vertex_new(temp->id);
-						newNode->weight = new_weight;
-            priority_queue_insert(pq, newNode);
+						Vertex *new_node = vertex_new(temp->id);
+						new_node->weight = new_weight;
+            priority_queue_insert(pq, new_node);
 					}
 				}
 			}
@@ -50,8 +50,8 @@ double *dijkstra(Graph* graph, int src) {
     }
 	}
 
-  priority_queue_finish(pq);
   free(visited);
+  priority_queue_finish(pq);
 	return distance;
 }
 
@@ -76,4 +76,18 @@ double calculate_estimated_rtt(Network *n, int a, int b) {
   }
 
   return min;
+}
+
+void save_rtt_inflation_to_file(const char *output_file, RttInflation **rtt_inflations, int qtd_inflations) {
+  FILE *file = fopen(output_file, "w");
+  assert(file != NULL);
+
+  for (int i = 0; i < qtd_inflations; i++) {
+    const int server_id = rtt_inflation_server_id(rtt_inflations[i]);
+    const int client_id = rtt_inflation_client_id(rtt_inflations[i]);
+    const double inflation = rtt_inflation_inflation(rtt_inflations[i]);
+    fprintf(file, "%d %d %.16f\n", server_id, client_id, inflation);
+  }
+
+  fclose(file);
 }

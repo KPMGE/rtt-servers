@@ -21,14 +21,7 @@ void vertex_set_weight(Vertex *p, double weight) { p->weight = weight; }
 void vertex_set_id(Vertex *p, int id) { p->id = id; }
 
 void vertex_free(Vertex *p) { 
-  Vertex *current = p;
-  while (current) {
-    Vertex *aux = current;
-    current = current->next;
-    if (aux) {
-      free(aux);
-    }
-  }
+  free(p);
 }
 
 int vertex_more(Vertex *p, Vertex *q) { return p->weight > q->weight; }
